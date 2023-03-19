@@ -1,11 +1,31 @@
 package main
 
+import (
+	"bufio"
+	"fmt"
+	"myapp/doctor"
+	"os"
+	"strings"
+)
+
 func main() {
-	println("Hello, World!")
+	reader := bufio.NewReader(os.Stdin)
+	whatToSay := doctor.Intro()
+	fmt.Println(whatToSay)
 
-	saySomething("Hello, World!")
-}
+	for {
+		fmt.Print(">> ")
+		userInput, _ := reader.ReadString('\n')
+		//userInput = userInput[:len(userInput)-1]
+		userInput = strings.Replace(userInput, "\r\n", "", -1)
+		userInput = strings.Replace(userInput, "\n", "", -1)
 
-func saySomething(whatToSay string) {
-	println(whatToSay)
+		if userInput == "quit" {
+			break
+		}
+
+		response := doctor.Response(userInput)
+		fmt.Println(response)
+	}
+
 }
